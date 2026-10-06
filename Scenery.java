@@ -151,9 +151,16 @@ public class Scenery extends JPanel {
                 g.setColor(Color.WHITE);
                 g.fillOval(xPos, yPos, x, y);
             }
-            
+
             g.setColor(Color.YELLOW);
             g.fillOval(-100, -100, 250, 250);
+        } else {
+            for (byte i = 0; i < 50; i++) {
+                int xPos = (int) (Math.random() * 1280);
+                int yPos = (int) (Math.random() * 150);
+                g.setColor(Color.WHITE);
+                g.fillOval(xPos, yPos, 5, 5);
+            }
         }
     }
 
