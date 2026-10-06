@@ -227,18 +227,29 @@ public class Scenery extends JPanel {
 
     private void drawAnimals(Graphics g) {
         // draw pig
-        g.setColor(new Color(253, 215, 228));
-        g.fillOval(720, 500, 20, 20);
-        g.fillOval(730, 510, 30, 20);
+        Color pig = new Color(253, 215, 228);
+
+        // draw legs
+        g.setColor(pig);
         g.fillRect(735, 525, 5, 10);
         g.fillRect(752, 525, 5, 10);
-
         g.setColor(Color.BLACK);
         g.drawRect(735, 525, 5, 10);
         g.drawRect(752, 525, 5, 10);
+
+        // draw body
+        g.setColor(pig);
+        g.fillOval(730, 510, 30, 20);
+        g.setColor(Color.BLACK);
         g.drawOval(730, 510, 30, 20);
+
+        // draw head
+        g.setColor(pig);
+        g.fillOval(720, 500, 20, 20);
+        g.setColor(Color.BLACK);
         g.drawOval(720, 500, 20, 20);
 
+        // draw eyes and snout
         g.fillOval(724, 505, 4, 4);
         g.fillOval(730, 505, 4, 4);
         g.drawOval(725, 510, 8, 6);
