@@ -11,7 +11,8 @@ public class Scenery extends JPanel {
 
     // Private instance variables for season and time
     private boolean isDay;
-    private String season;
+    // We don't need private String season; since all of the season work happens in
+    // the constructor
 
     // 4 colors are changed depending on the season and time
     private Color sky;
@@ -24,9 +25,7 @@ public class Scenery extends JPanel {
 
     public Scenery(boolean isDay, String season) {
         // Set method parameters as instance variables
-        this.season = season;
         this.isDay = isDay;
-
 
         if (isDay) {
             windowColor = new Color(173, 216, 230);
@@ -121,9 +120,9 @@ public class Scenery extends JPanel {
         drawBackground(g);
         drawSky(g);
         drawBuildings(g);
+        drawAnimals(g);
         drawTrees(g);
         drawFlowers(g);
-        drawAnimals(g);
     }
 
     // Draw grass & river in the lower third and the sky in the upper two thirds
@@ -221,6 +220,47 @@ public class Scenery extends JPanel {
         }
     }
 
+    // Draw pig and fish
+    private void drawAnimals(Graphics g) {
+        /* Draw Pig */
+        Color pig = new Color(253, 215, 228);
+
+        // draw legs
+        g.setColor(pig);
+        g.fillRect(735, 525, 5, 10);
+        g.fillRect(752, 525, 5, 10);
+        g.setColor(Color.BLACK);
+        g.drawRect(735, 525, 5, 10);
+        g.drawRect(752, 525, 5, 10);
+
+        // draw body
+        g.setColor(pig);
+        g.fillOval(730, 510, 30, 20);
+        g.setColor(Color.BLACK);
+        g.drawOval(730, 510, 30, 20);
+
+        // draw head
+        g.setColor(pig);
+        g.fillOval(720, 500, 20, 20);
+        g.setColor(Color.BLACK);
+        g.drawOval(720, 500, 20, 20);
+
+        // draw eyes and snout
+        g.fillOval(724, 505, 4, 4);
+        g.fillOval(730, 505, 4, 4);
+        g.drawOval(725, 510, 8, 6);
+
+        // draw fish
+        g.setColor(Color.ORANGE);
+        g.fillOval(640, 580, 30, 20);
+        int[] xPoints = { 630, 640, 630 };
+        int[] yPoints = { 580, 590, 600 };
+        g.fillPolygon(xPoints, yPoints, 3);
+
+        g.setColor(Color.BLACK);
+        g.fillOval(660, 585, 6, 6);
+    }
+
     // Draws trees and random positions on the screen
     private void drawTrees(Graphics g) {
         Color bark = new Color(102, 91, 78);
@@ -270,46 +310,5 @@ public class Scenery extends JPanel {
             g.setColor(Color.YELLOW);
             g.fillOval(xPos + 5, yPos + 5, 10, 10);
         }
-    }
-
-    // Draw pig and fish
-    private void drawAnimals(Graphics g) {
-        /* Draw Pig */
-        Color pig = new Color(253, 215, 228);
-
-        // draw legs
-        g.setColor(pig);
-        g.fillRect(735, 525, 5, 10);
-        g.fillRect(752, 525, 5, 10);
-        g.setColor(Color.BLACK);
-        g.drawRect(735, 525, 5, 10);
-        g.drawRect(752, 525, 5, 10);
-
-        // draw body
-        g.setColor(pig);
-        g.fillOval(730, 510, 30, 20);
-        g.setColor(Color.BLACK);
-        g.drawOval(730, 510, 30, 20);
-
-        // draw head
-        g.setColor(pig);
-        g.fillOval(720, 500, 20, 20);
-        g.setColor(Color.BLACK);
-        g.drawOval(720, 500, 20, 20);
-
-        // draw eyes and snout
-        g.fillOval(724, 505, 4, 4);
-        g.fillOval(730, 505, 4, 4);
-        g.drawOval(725, 510, 8, 6);
-
-        // draw fish
-        g.setColor(Color.ORANGE);
-        g.fillOval(640, 580, 30, 20);
-        int[] xPoints = { 630, 640, 630 };
-        int[] yPoints = { 580, 590, 600 };
-        g.fillPolygon(xPoints, yPoints, 3);
-
-        g.setColor(Color.BLACK);
-        g.fillOval(660, 585, 6, 6);
     }
 }
