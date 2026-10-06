@@ -13,9 +13,10 @@ public class Scenery extends JPanel {
     private boolean isDay;
     private String season;
 
-    // 3 colors are changed depending on the season and time
+    // 4 colors are changed depending on the season and time
     private Color sky;
     private Color grass;
+    private Color windowColor;
 
     // Since the RGB code for trees are randomly generenated in drawTrees, we
     // provide an array that the random generation can use as a base color
@@ -26,77 +27,81 @@ public class Scenery extends JPanel {
         this.season = season;
         this.isDay = isDay;
 
-        // Use switch case statement instead of if-else statement for more structured
-        // and faster code; change the 3 core colors based on input
-        switch (season) {
-            case "winter":
-                if (isDay) {
+
+        if (isDay) {
+            windowColor = new Color(173, 216, 230);
+            // Use switch case statement instead of if-else statement for more structured
+            // and faster code; change the 4 core colors based on input
+            switch (season) {
+                case "winter":
                     sky = new Color(190, 210, 225);
                     grass = new Color(199, 221, 199);
 
                     trees[0] = 85;
                     trees[1] = 70;
                     trees[2] = 60;
-                } else {
-                    sky = new Color(15, 22, 45);
-                    grass = new Color(90, 100, 91);
-
-                    trees[0] = 30;
-                    trees[1] = 28;
-                    trees[2] = 28;
-                }
-                break;
-            case "spring":
-                if (isDay) {
+                    break;
+                case "spring":
                     sky = new Color(135, 206, 235);
                     grass = new Color(124, 252, 0);
 
                     trees[0] = 20;
                     trees[1] = 175;
                     trees[2] = 70;
-                } else {
-                    sky = new Color(25, 35, 75);
-                    grass = new Color(40, 70, 45);
-
-                    trees[0] = 35;
-                    trees[1] = 60;
-                    trees[2] = 45;
-                }
-                break;
-            case "summer":
-                if (isDay) {
+                    break;
+                case "summer":
                     sky = new Color(70, 160, 230);
                     grass = new Color(60, 150, 40);
 
                     trees[0] = 34;
                     trees[1] = 110;
                     trees[2] = 34;
-                } else {
+                    break;
+                case "fall":
+                    sky = new Color(160, 195, 215);
+                    grass = new Color(160, 150, 70);
+
+                    trees[0] = 204;
+                    trees[1] = 128;
+                    trees[2] = 20;
+                    break;
+            }
+        } else {
+            windowColor = Color.YELLOW;
+            switch (season) {
+                case "winter":
+                    sky = new Color(15, 22, 45);
+                    grass = new Color(90, 100, 91);
+
+                    trees[0] = 30;
+                    trees[1] = 28;
+                    trees[2] = 28;
+                    break;
+                case "spring":
+                    sky = new Color(25, 35, 75);
+                    grass = new Color(40, 70, 45);
+
+                    trees[0] = 35;
+                    trees[1] = 60;
+                    trees[2] = 45;
+                    break;
+                case "summer":
                     sky = new Color(15, 20, 60);
                     grass = new Color(30, 60, 35);
 
                     trees[0] = 20;
                     trees[1] = 50;
                     trees[2] = 30;
-                }
-                break;
-            case "fall":
-                if (isDay) {
-                    sky = new Color(160, 195, 215);
-                    grass = new Color(160, 150, 70);
-
-                    trees[0] = 205;
-                    trees[1] = 21;
-                    trees[2] = 30;
-                } else {
+                    break;
+                case "fall":
                     sky = new Color(20, 25, 50);
                     grass = new Color(55, 55, 35);
 
                     trees[0] = 60;
                     trees[1] = 40;
                     trees[2] = 25;
-                }
-                break;
+                    break;
+            }
         }
 
         setFocusable(true);
@@ -202,7 +207,7 @@ public class Scenery extends JPanel {
                 for (byte k = 0; k < 3; k++) {
                     // There are 7 width sections (3 windows and 4 blank sections) so we generate
                     // x coords with the following coordinates
-                    g.setColor(Color.YELLOW);
+                    g.setColor(windowColor);
                     g.fillRect(xPos + (width / 7) + (k * width * 2 / 7), yPos + (height / 9) + (j * height * 2 / 9),
                             width / 6, height / 8);
 
@@ -220,7 +225,7 @@ public class Scenery extends JPanel {
     private void drawTrees(Graphics g) {
         Color bark = new Color(102, 91, 78);
 
-        for (byte i = 0; i < 100; i++) {
+        for (int i = 0; i < 150; i++) {
             int yPos = (int) (Math.random() * 200) + 450;
             int size = (int) (Math.random() * 40) + 75;
             int xPos;
@@ -231,7 +236,7 @@ public class Scenery extends JPanel {
             int b = (int) (Math.random() * 40) + trees[2] - 20;
 
             // Make a gap in the trees to make room for the river
-            if (i < 50) {
+            if (i < 75) {
                 xPos = (int) (Math.random() * 420);
             } else {
                 xPos = 1280 - (int) (Math.random() * 420) - size;
