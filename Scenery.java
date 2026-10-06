@@ -142,16 +142,19 @@ public class Scenery extends JPanel {
             g.fillArc(xPos + width - 5, yPos + height / 5, width, height, 0, 180);
         }
 
-        for (byte i = 0; i < 5; i++) {
-            int xPos = (int) (Math.random() * 1280);
-            int yPos = (int) (Math.random() * 200);
-            int x = (int) (Math.random() * 50) + 200;
-            int y = (int) (Math.random() * 50) + 50;
-            g.setColor(Color.WHITE);
-            g.fillOval(xPos, yPos, x, y);
+        if (isDay) {
+            for (byte i = 0; i < 5; i++) {
+                int xPos = (int) (Math.random() * 1280);
+                int yPos = (int) (Math.random() * 200);
+                int x = (int) (Math.random() * 50) + 200;
+                int y = (int) (Math.random() * 50) + 50;
+                g.setColor(Color.WHITE);
+                g.fillOval(xPos, yPos, x, y);
+            }
+            
+            g.setColor(Color.YELLOW);
+            g.fillOval(-100, -100, 250, 250);
         }
-        g.setColor(Color.YELLOW);
-        g.fillOval(-100, -100, 250, 250);
     }
 
     private void drawBuildings(Graphics g) {
