@@ -11,30 +11,29 @@ public class Scenery extends JPanel {
 
     // Private instance variables for season and time
     private boolean isDay;
-    // We don't need private String season; since all of the season work happens in
-    // the constructor
+    private String season;
 
     // 4 colors are changed depending on the season and time
     private Color sky;
     private Color grass;
     private Color windowColor;
 
-    // Since the RGB code for trees are randomly generenated in drawTrees, we
+    // Since the RGB code for trees are randomly generated in drawTrees, we
     // provide an array that the random generation can use as a base color
     private int[] trees = new int[3];
 
     public Scenery(boolean isDay, String season) {
         // Set method parameters as instance variables
         this.isDay = isDay;
+        this.season = season;
 
         if (isDay) {
             windowColor = new Color(173, 216, 230);
-            // Use switch case statement instead of if-else statement for more structured
-            // and faster code; change the 4 core colors based on input
+            // Use switch case statement instead of if-else statement for more structured; change the 4 core colors based on input
             switch (season) {
                 case "winter":
                     sky = new Color(190, 210, 225);
-                    grass = new Color(199, 221, 199);
+                    grass = new Color(240, 245, 250);
 
                     trees[0] = 85;
                     trees[1] = 70;
@@ -58,7 +57,7 @@ public class Scenery extends JPanel {
                     break;
                 case "fall":
                     sky = new Color(160, 195, 215);
-                    grass = new Color(160, 150, 70);
+                    grass = new Color(140, 100, 60);
 
                     trees[0] = 204;
                     trees[1] = 128;
@@ -70,7 +69,7 @@ public class Scenery extends JPanel {
             switch (season) {
                 case "winter":
                     sky = new Color(15, 22, 45);
-                    grass = new Color(90, 100, 91);
+                    grass = new Color(165, 175, 195);
 
                     trees[0] = 30;
                     trees[1] = 28;
@@ -94,10 +93,10 @@ public class Scenery extends JPanel {
                     break;
                 case "fall":
                     sky = new Color(20, 25, 50);
-                    grass = new Color(55, 55, 35);
+                    grass = new Color(75, 55, 35);
 
-                    trees[0] = 60;
-                    trees[1] = 40;
+                    trees[0] = 175;
+                    trees[1] = 90;
                     trees[2] = 25;
                     break;
             }
@@ -113,14 +112,15 @@ public class Scenery extends JPanel {
         return SIZE;
     }
 
-    // Call the main methods in paintComponenet
+    // Call the main methods in paintComponent
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawBackground(g);
         drawSky(g);
         drawBuildings(g);
-        drawAnimals(g);
+        drawPig(g);
+        drawFish(g);
         drawTrees(g);
         drawFlowers(g);
     }
@@ -190,9 +190,9 @@ public class Scenery extends JPanel {
             int grayValue = (int) (Math.random() * 150) + 53;
             g.setColor(new Color(grayValue, grayValue, grayValue));
 
-            // Buildings occupy middle third of the screen (1280 / 3 = 240)
+            // Buildings occupy middle third of the screen (720 / 3 = 240)
             int height = (int) (Math.random() * 140) + 100; // Height is between 100 and 240
-            int width = (int) (Math.random() * 70) + 50; // Width is between 50 and 120 (half of the height)
+            int width = (int) (Math.random() * 70) + 50; // Width is between 50 and 120
             int xPos = (int) (Math.random() * 1280); // Buidlings can occupy the entire width of the screen
             int yPos = 480 - height; // 480 = 2/3 of screen; 480 - height makes buildings touch bottom third
 
@@ -210,7 +210,7 @@ public class Scenery extends JPanel {
                     g.fillRect(xPos + (width / 7) + (k * width * 2 / 7), yPos + (height / 9) + (j * height * 2 / 9),
                             width / 6, height / 8);
 
-                    // There are 9 width sections (4 windows and 5 blank sections) so we generate
+                    // There are 9 length sections (4 windows and 5 blank sections) so we generate
                     // y coords with the following coordinates
                     g.setColor(Color.BLACK);
                     g.drawRect(xPos + (width / 7) + (k * width * 2 / 7), yPos + (height / 9) + (j * height * 2 / 9),
@@ -220,12 +220,10 @@ public class Scenery extends JPanel {
         }
     }
 
-    // Draw pig and fish
-    private void drawAnimals(Graphics g) {
-        /* Draw Pig */
+    private void drawPig(Graphics g) {
         Color pig = new Color(253, 215, 228);
 
-        // draw legs
+        // Draw legs
         g.setColor(pig);
         g.fillRect(735, 525, 5, 10);
         g.fillRect(752, 525, 5, 10);
@@ -233,30 +231,35 @@ public class Scenery extends JPanel {
         g.drawRect(735, 525, 5, 10);
         g.drawRect(752, 525, 5, 10);
 
-        // draw body
+        // Draw body
         g.setColor(pig);
         g.fillOval(730, 510, 30, 20);
         g.setColor(Color.BLACK);
         g.drawOval(730, 510, 30, 20);
 
-        // draw head
+        // Draw head
         g.setColor(pig);
         g.fillOval(720, 500, 20, 20);
         g.setColor(Color.BLACK);
         g.drawOval(720, 500, 20, 20);
 
-        // draw eyes and snout
+        // Draw eyes and snout
         g.fillOval(724, 505, 4, 4);
         g.fillOval(730, 505, 4, 4);
         g.drawOval(725, 510, 8, 6);
 
-        // draw fish
+    }
+
+    // Draw fish in river
+    private void drawFish(Graphics g) {
+        // Draw body (oval next to 3-sided polygon)
         g.setColor(Color.ORANGE);
         g.fillOval(640, 580, 30, 20);
         int[] xPoints = { 630, 640, 630 };
         int[] yPoints = { 580, 590, 600 };
         g.fillPolygon(xPoints, yPoints, 3);
 
+        // Draw eyes
         g.setColor(Color.BLACK);
         g.fillOval(660, 585, 6, 6);
     }
@@ -266,7 +269,8 @@ public class Scenery extends JPanel {
         Color bark = new Color(102, 91, 78);
 
         for (int i = 0; i < 150; i++) {
-            int yPos = (int) (Math.random() * 200) + 450;
+            // Randomly generate their size and position
+            int yPos = (int) (Math.random() * 300) + 350;
             int size = (int) (Math.random() * 40) + 75;
             int xPos;
 
@@ -288,10 +292,12 @@ public class Scenery extends JPanel {
             g.setColor(Color.BLACK);
             g.drawRect((int) (xPos + (size * 0.375)), yPos + size - 50, (int) (size * 0.25), 1280 - yPos);
 
-            g.setColor(new Color(r, gColor, b));
-            g.fillOval(xPos, yPos, size, size);
-            g.setColor(Color.BLACK);
-            g.drawOval(xPos, yPos, size, size);
+            if (!season.equals("winter")) {      
+                g.setColor(new Color(r, gColor, b));
+                g.fillOval(xPos, yPos, size, size);
+                g.setColor(Color.BLACK);
+                g.drawOval(xPos, yPos, size, size);
+            }
         }
     }
 
