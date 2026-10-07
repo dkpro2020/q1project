@@ -276,11 +276,6 @@ public class Scenery extends JPanel {
             int size = (int) (Math.random() * 40) + 75;
             int xPos;
 
-            // Generate random colors based on base tree color assigned in constructor
-            int r = (int) (Math.random() * 40) + trees[0] - 20;
-            int gColor = (int) (Math.random() * 40) + trees[1] - 20; // using g interferes with graphics variable
-            int b = (int) (Math.random() * 40) + trees[2] - 20;
-
             // Make a gap in the trees to make room for the river
             if (i < 25) {
                 xPos = (int) (Math.random() * 420);
@@ -295,7 +290,9 @@ public class Scenery extends JPanel {
             g.drawRect((int) (xPos + (size * 0.375)), yPos + size - 50, (int) (size * 0.25), 1280 - yPos);
 
             if (season.equals("winter")) {
+                // If season is winter, don't draw leaves
                 for (byte k = 0; k < (int) (Math.random() * 5) + 1; k++) {
+                    // Choose coordinates for branches
                     int x1 = (int) (xPos + size * (0.375 + Math.random() * 0.25));
                     int y1 = yPos + size - 50;
                     int x2 = (int) ((Math.random() * 200)) + x1 - 100;
@@ -304,6 +301,7 @@ public class Scenery extends JPanel {
                     int[] xPoints = { x1, 0, x2 };
                     int[] yPoints = { y1, y1, y2 };
 
+                    // Determine if branch is pointing left or right
                     if (x2 < x1) {
                         xPoints[1] = x1 - 15;
                     } else {
@@ -314,6 +312,12 @@ public class Scenery extends JPanel {
                     g.fillPolygon(xPoints, yPoints, 3);
                 }
             } else {
+                // Generate random colors based on base tree color assigned in constructor
+                int r = (int) (Math.random() * 40) + trees[0] - 20;
+                int gColor = (int) (Math.random() * 40) + trees[1] - 20; // using g interferes with graphics variable
+                int b = (int) (Math.random() * 40) + trees[2] - 20;
+
+                // Otherwise draw crown on trees
                 g.setColor(new Color(r, gColor, b));
                 g.fillOval(xPos, yPos, size, size);
                 g.setColor(Color.BLACK);
