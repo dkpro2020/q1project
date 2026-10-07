@@ -13,7 +13,8 @@ public class Scenery extends JPanel {
     private boolean isDay;
     private String season;
 
-    // 4 colors are changed depending on the season and time
+    // 4 colors (3 Color variables and base tree color) are changed depending on the
+    // season and time
     private Color sky;
     private Color grass;
     private Color windowColor;
@@ -29,7 +30,8 @@ public class Scenery extends JPanel {
 
         if (isDay) {
             windowColor = new Color(173, 216, 230);
-            // Use switch case statement instead of if-else statement for more structured; change the 4 core colors based on input
+            // Use switch case statement instead of if-else statement for more structured
+            // code; change the 4 core colors based on input
             switch (season) {
                 case "winter":
                     sky = new Color(190, 210, 225);
@@ -140,7 +142,7 @@ public class Scenery extends JPanel {
     }
 
     // Draws sky with birds and other objects depending on time
-    public void drawSky(Graphics g) {
+    private void drawSky(Graphics g) {
         for (byte i = 0; i < 3; i++) {
             int xPos = (int) (Math.random() * 800) + 400;
             int yPos = (int) (Math.random() * 100);
@@ -193,7 +195,7 @@ public class Scenery extends JPanel {
             // Buildings occupy middle third of the screen (720 / 3 = 240)
             int height = (int) (Math.random() * 140) + 100; // Height is between 100 and 240
             int width = (int) (Math.random() * 70) + 50; // Width is between 50 and 120
-            int xPos = (int) (Math.random() * 1280); // Buidlings can occupy the entire width of the screen
+            int xPos = (int) (Math.random() * 1280); // Buildings can occupy the entire width of the screen
             int yPos = 480 - height; // 480 = 2/3 of screen; 480 - height makes buildings touch bottom third
 
             // Draw buildings and outline
@@ -268,7 +270,7 @@ public class Scenery extends JPanel {
     private void drawTrees(Graphics g) {
         Color bark = new Color(102, 91, 78);
 
-        for (int i = 0; i < 150; i++) {
+        for (int i = 0; i < 50; i++) {
             // Randomly generate their size and position
             int yPos = (int) (Math.random() * 300) + 350;
             int size = (int) (Math.random() * 40) + 75;
@@ -280,7 +282,7 @@ public class Scenery extends JPanel {
             int b = (int) (Math.random() * 40) + trees[2] - 20;
 
             // Make a gap in the trees to make room for the river
-            if (i < 75) {
+            if (i < 25) {
                 xPos = (int) (Math.random() * 420);
             } else {
                 xPos = 1280 - (int) (Math.random() * 420) - size;
@@ -292,7 +294,26 @@ public class Scenery extends JPanel {
             g.setColor(Color.BLACK);
             g.drawRect((int) (xPos + (size * 0.375)), yPos + size - 50, (int) (size * 0.25), 1280 - yPos);
 
-            if (!season.equals("winter")) {      
+            if (season.equals("winter")) {
+                for (byte k = 0; k < (int) (Math.random() * 5) + 1; k++) {
+                    int x1 = (int) (xPos + size * (0.375 + Math.random() * 0.25));
+                    int y1 = yPos + size - 50;
+                    int x2 = (int) ((Math.random() * 200)) + x1 - 100;
+                    int y2 = (int) ((Math.random() * 100)) + y1 - 100;
+
+                    int[] xPoints = { x1, 0, x2 };
+                    int[] yPoints = { y1, y1, y2 };
+
+                    if (x2 < x1) {
+                        xPoints[1] = x1 - 15;
+                    } else {
+                        xPoints[1] = x1 + 15;
+                    }
+
+                    g.setColor(bark);
+                    g.fillPolygon(xPoints, yPoints, 3);
+                }
+            } else {
                 g.setColor(new Color(r, gColor, b));
                 g.fillOval(xPos, yPos, size, size);
                 g.setColor(Color.BLACK);
@@ -305,14 +326,42 @@ public class Scenery extends JPanel {
     private void drawFlowers(Graphics g) {
         Color flowerStem = new Color(178, 212, 178);
 
-        for (byte i = 0; i < 3; i++) {
-            int xPos = (int) (Math.random() * 50) + 520;
-            int yPos = (int) (Math.random() * 50) + 470;
+        // Arrays to store already placed flower positions
+        int[] xCoords = new int[3];
+        int[] yCoords = new int[3];
+        int flowerSize = 20;
 
+        for (int i = 0; i < 3; i++) {
+            int xPos, yPos;
+            boolean overlapping;
+
+            // Keep generating a new position until a non-overlapping one is found
+            do {
+                overlapping = false;
+
+                xPos = (int) (Math.random() * 60) + 510;
+                yPos = (int) (Math.random() * 60) + 460;
+
+                // Check against all previously placed flowers
+                for (int j = 0; j < i; j++) {
+                    // Using the Pythagorean distance formula
+                    double distance = Math.hypot(xPos - xCoords[j], yPos - yCoords[j]);
+                    if (distance < flowerSize) {
+                        overlapping = true; // Break and try a new loop iteration.
+                        break;
+                    }
+                }
+            } while (overlapping);
+
+            // Save the valid coordinates
+            xCoords[i] = xPos;
+            yCoords[i] = yPos;
+
+            // Draw the flower
             g.setColor(flowerStem);
             g.fillRect(xPos + 7, yPos + 10, 6, 25);
             g.setColor(Color.RED);
-            g.fillOval(xPos, yPos, 20, 20);
+            g.fillOval(xPos, yPos, flowerSize, flowerSize);
             g.setColor(Color.YELLOW);
             g.fillOval(xPos + 5, yPos + 5, 10, 10);
         }
